@@ -1,0 +1,41 @@
+# CICDTestProject
+version: 2.0
+
+# Define the workflow for iOS app from your GitHub repo
+workflows:
+  default:
+    steps:
+    # Step 1: Git clone repository from GitHub
+    - git-clone: 
+        inputs:
+          repository_url: "https://github.com/smartirshad/CICDTestProject.git"
+    
+    # Step 2: Install CocoaPods dependencies (if you use CocoaPods)
+    - cocoapods-install:
+        inputs:
+          is_cache_disabled: 'true'
+    
+    # Step 3: Set the Xcode project path and scheme (customize if needed)
+    - xcode-project-configurator:
+        inputs:
+          project_path: "$BITRISE_PROJECT_PATH"
+          scheme: "$BITRISE_SCHEME"
+    
+    # Step 4: Run unit tests (Optional)
+    - xcode-test:
+        inputs:
+          project_path: "$BITRISE_PROJECT_PATH"
+          scheme: "$BITRISE_SCHEME"
+          is_clean_build: 'true'
+    
+    # Step 5: Build the app
+    - xcode-archive:
+        inputs:
+          project_path: "$BITRISE_PROJECT_PATH"
+          scheme: "$BITRISE_SCHEME"
+          export_method: "app-store"  # or ad-hoc/testing
+    
+    # Step 6: Deploy the build to Bitrise (optional)
+    - deploy-to-bitrise-io:
+        inputs:
+          notify_user_groups: "everyone"  # Notify team about build result
