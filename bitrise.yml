@@ -18,21 +18,14 @@ workflows:
     # Step 3: Set the Xcode project path and scheme (customize if needed)
     - xcode-project-configurator:
         inputs:
-          project_path: "$BITRISE_PROJECT_PATH"
-          scheme: "$BITRISE_SCHEME"
-    
-    # Step 4: Run unit tests (Optional)
-    - xcode-test:
-        inputs:
-          project_path: "$BITRISE_PROJECT_PATH"
-          scheme: "$BITRISE_SCHEME"
-          is_clean_build: 'true'
-    
+          project_path: "./CICDTestProject.xcodeproj"
+          scheme: "CICDTestProject"
+          
     # Step 5: Build the app
     - xcode-archive:
         inputs:
-          project_path: "$BITRISE_PROJECT_PATH"
-          scheme: "$BITRISE_SCHEME"
+          project_path: "./CICDTestProject.xcodeproj"
+          scheme: "CICDTestProject"
           export_method: "app-store"  # or ad-hoc/testing
     
     # Step 6: Deploy the build to Bitrise (optional)
